@@ -5,7 +5,6 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import stopwords
 import re, string
 import itertools as it
-import matplotlib.pyplot as plt
 import string
 
 
@@ -36,6 +35,7 @@ def remove_noise(comment_tokens, stop_words = ()):
         token = re.sub("lmfao", "lmao", token)
         token = re.sub("fuk", "fuck", token)
         token = re.sub("cals", "calls", token)
+        token = re.sub("besos", "bezos", token)
 
 
         if tag.startswith("NN"):
@@ -54,19 +54,10 @@ def remove_noise(comment_tokens, stop_words = ()):
 
 
 #------------------------------------------------------------------------------------------------------------------------
-#               GATHER HOT POST COMMENTS
+#               CLEAN COMMENTS
 #------------------------------------------------------------------------------------------------------------------------
+def clean_comments(comments):
 
-def get_all_hot_comments(subreddit, num_of_posts):
-    plt.clf()
-    plt.close()
-    # obtain metadata
-    comments = []
-    for submission in reddit.subreddit("{}".format(subreddit)).hot(limit=num_of_posts):
-        submission.comments.replace_more(limit=0)
-        for comment in submission.comments.list():
-            comments.append(comment.body)
-    
     comments_tokens = [word_tokenize(i) for i in comments]
 
     stop_words = stopwords.words("english")
@@ -75,7 +66,23 @@ def get_all_hot_comments(subreddit, num_of_posts):
     for tokens in comments_tokens:
         comment_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
     
-    all_hot_comments = get_all_words(comment_cleaned_tokens_list)
+    all_type_comments = get_all_words(comment_cleaned_tokens_list)
+
+    return all_type_comments
+
+
+#------------------------------------------------------------------------------------------------------------------------
+#               GATHER HOT POST COMMENTS
+#------------------------------------------------------------------------------------------------------------------------
+
+def get_all_hot_comments(subreddit, num_of_posts):
+    comments = []
+    for submission in reddit.subreddit("{}".format(subreddit)).hot(limit=num_of_posts):
+        submission.comments.replace_more(limit=0)
+        for comment in submission.comments.list():
+            comments.append(comment.body) 
+
+    all_hot_comments = clean_comments(comments)
 
     return all_hot_comments
 
@@ -84,24 +91,13 @@ def get_all_hot_comments(subreddit, num_of_posts):
 #               GATHER TOP POST COMMENTS
 #------------------------------------------------------------------------------------------------------------------------
 def get_all_top_comments(subreddit, num_of_posts):
-    plt.clf()
-    plt.close()
-    # obtain metadata
     comments = []
     for submission in reddit.subreddit("{}".format(subreddit)).top(limit=num_of_posts):
         submission.comments.replace_more(limit=0)
         for comment in submission.comments.list():
             comments.append(comment.body)
     
-    comments_tokens = [word_tokenize(i) for i in comments]
-
-    stop_words = stopwords.words("english")
-
-    comment_cleaned_tokens_list = []
-    for tokens in comments_tokens:
-        comment_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-    
-    all_top_comments = get_all_words(comment_cleaned_tokens_list)
+    all_top_comments = clean_comments(comments)
 
     return all_top_comments
 
@@ -110,24 +106,13 @@ def get_all_top_comments(subreddit, num_of_posts):
 #               GATHER CONTROVERSIAL POST COMMENTS
 #------------------------------------------------------------------------------------------------------------------------
 def get_all_controversial_comments(subreddit, num_of_posts):
-    plt.clf()
-    plt.close()
-    # obtain metadata
     comments = []
     for submission in reddit.subreddit("{}".format(subreddit)).controversial(limit=num_of_posts):
         submission.comments.replace_more(limit=0)
         for comment in submission.comments.list():
             comments.append(comment.body)
     
-    comments_tokens = [word_tokenize(i) for i in comments]
-
-    stop_words = stopwords.words("english")
-
-    comment_cleaned_tokens_list = []
-    for tokens in comments_tokens:
-        comment_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-    
-    all_controversial_comments = get_all_words(comment_cleaned_tokens_list)
+    all_controversial_comments = clean_comments(comments)
 
     return all_controversial_comments
 
@@ -137,24 +122,13 @@ def get_all_controversial_comments(subreddit, num_of_posts):
 #               GATHER GILDED POST COMMENTS
 #------------------------------------------------------------------------------------------------------------------------
 def get_all_gilded_comments(subreddit, num_of_posts):
-    plt.clf()
-    plt.close()
-    # obtain metadata
     comments = []
     for submission in reddit.subreddit("{}".format(subreddit)).gilded(limit=num_of_posts):
         submission.comments.replace_more(limit=0)
         for comment in submission.comments.list():
             comments.append(comment.body)
     
-    comments_tokens = [word_tokenize(i) for i in comments]
-
-    stop_words = stopwords.words("english")
-
-    comment_cleaned_tokens_list = []
-    for tokens in comments_tokens:
-        comment_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-    
-    all_gilded_comments = get_all_words(comment_cleaned_tokens_list)
+    all_gilded_comments = clean_comments(comments)
 
     return all_gilded_comments
 
@@ -164,23 +138,12 @@ def get_all_gilded_comments(subreddit, num_of_posts):
 #               GATHER RISING POST COMMENTS
 #------------------------------------------------------------------------------------------------------------------------
 def get_all_rising_comments(subreddit, num_of_posts):
-    plt.clf()
-    plt.close()
-    # obtain metadata
     comments = []
     for submission in reddit.subreddit("{}".format(subreddit)).rising(limit=num_of_posts):
         submission.comments.replace_more(limit=0)
         for comment in submission.comments.list():
             comments.append(comment.body)
-    
-    comments_tokens = [word_tokenize(i) for i in comments]
 
-    stop_words = stopwords.words("english")
-
-    comment_cleaned_tokens_list = []
-    for tokens in comments_tokens:
-        comment_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-    
-    all_rising_comments = get_all_words(comment_cleaned_tokens_list)
+    all_rising_comments = clean_comments(comments)
 
     return all_rising_comments
