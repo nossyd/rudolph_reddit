@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 st.title("What Is Reddit Saying?")
 st.markdown("""
 This app performs NLP on comments of posts from the popular website, Reddit.com then displays the most used tokens.
-* **Python libraries:** pandas, streamlit, numpy, altair, praw, nltk
+* **Python libraries:** pandas, streamlit, numpy, altair, praw, nltk, bs4, re, ast, requests, itertools, string
 * **Data source:** [Reddit.com](https://www.Reddit.com/).
 """)
 
@@ -21,8 +21,8 @@ st.sidebar.header('Filters')
 list_comment_type = ["Hot","Top","Controversial","Gilded","Rising"]
 comment_type = st.sidebar.selectbox('Type of Comments', list_comment_type)
 subreddit = st.sidebar.selectbox('Subreddit', subreddit_list)
-n_posts = st.sidebar.slider("Number of Posts", 0, 100, 15)
-n_tokens = st.sidebar.slider("Number of Tokens", 0, 100, 50)
+n_posts = st.sidebar.slider("Number of Posts", 0, 100, 10)
+n_tokens = st.sidebar.slider("Number of Tokens", 0, 100, 25)
 
 
 #------------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ n_tokens = st.sidebar.slider("Number of Tokens", 0, 100, 50)
 #------------------------------------------------------------------------------------------------------------------------
 
 @st.cache
-def load_data(subreddit_filter, n_posts, n_tokens=50, comment_type=comment_type):
+def load_data(subreddit, n_posts, n_tokens, comment_type=comment_type):
     if comment_type == "Hot":
         all_comments = get_all_hot_comments(subreddit, n_posts)
     
@@ -53,7 +53,7 @@ def load_data(subreddit_filter, n_posts, n_tokens=50, comment_type=comment_type)
     max_domain = df['Frequency'].max()
     return df, max_domain
 
-df, max_domain = load_data(subreddit_filter,n_posts,n_tokens)
+df, max_domain = load_data(subreddit,n_posts,n_tokens)
 
 
 

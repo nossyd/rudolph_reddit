@@ -5,7 +5,6 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import stopwords
 import re, string
 import itertools as it
-import string
 
 
 #------------------------------------------------------------------------------------------------------------------------

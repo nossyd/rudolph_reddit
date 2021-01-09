@@ -36,3 +36,4 @@ for i in other_subs:
 
 top_reddits_names = re.sub(r"/r/", "", str(top_reddits_names))
 subreddit_list = ast.literal_eval(top_reddits_names)
+subreddit_list = sorted(subreddit_list, key=str.lower)
