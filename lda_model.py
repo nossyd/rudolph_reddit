@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------------------------------------------------
 from gensim import corpora, models, similarities
 from get_all_comments_pipelines import get_all_hot_comments, get_all_top_comments, get_all_controversial_comments, get_all_gilded_comments, get_all_rising_comments
-from sandbox import subreddit, n_posts
+from rudolph import subreddit, n_posts
 import numpy as np
 
 all_comments_duo = get_all_hot_comments(subreddit, n_posts)
