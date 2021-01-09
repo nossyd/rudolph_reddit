@@ -12,7 +12,7 @@ from get_subreddits_pipeline import subreddit_list
 st.set_page_config(layout="wide")
 st.title("What Is Reddit Saying?")
 st.markdown("""
-This app performs NLP on comments of posts from the popular website, Reddit.com then displays the most used tokens.
+This app performs NLP on comments of posts from the popular website Reddit.com then displays the most used tokens, which are words of importance.
 * **Python libraries:** pandas, streamlit, numpy, altair, praw, nltk, bs4, re, ast, requests, itertools, string
 * **Data source:** [Reddit.com](https://www.Reddit.com/).
 """)
